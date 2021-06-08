@@ -9,6 +9,26 @@ let sumEl = document.getElementById("sum-el")
 let sum = 0
 let cardsEl = document.getElementById("cards-el")
 let moreBtn = document.getElementById("more-btn")
+let addBtn = document.getElementById("add-btn")
+let addNotBtn = document.getElementById("add-not-btn")
+let bankMoneyEl = document.getElementById("bank-money-el")
+let bankMoney = 300
+bankMoneyEl.textContent = "Bank money: " + bankMoney
+let moneyEl = document.getElementById("money-el")
+let money = 300
+moneyEl.textContent = "Yours money: " + money
+let betEl = document.getElementById("bet-el")
+let bet = 10
+betEl.textContent = "Bet: " + bet
+
+function add() {
+    ++bet
+    betEl.textContent = "Bet: " + bet
+}
+function addNot() {
+    --bet
+    betEl.textContent = "Bet: " + bet
+}
 
 
 
@@ -35,8 +55,13 @@ function startGame() {
 function moreController() {
     if (isDead || isBJ) {
         moreBtn.setAttribute("disabled", "disabled")
+        addBtn.setAttribute("disabled", "disabled")
+        addNotBtn.setAttribute("disabled", "disabled")
+        
     } else {
         moreBtn.removeAttribute("disabled", "disabled")
+        addBtn.removeAttribute("disabled", "disabled")
+        addNotBtn.removeAttribute("disabled", "disabled")
     }
 }
 
