@@ -1,15 +1,20 @@
 
 
 let firstCard
+let firstCardBank
 let secondCard
+let secondCardBank
 let isBJ = false
 let isDead = false
+let inGame = false
 let messageEl = document.getElementById("message-el")
 let sumEl = document.getElementById("sum-el")
+let BankSumEl = document.getElementById("bank-sum-el")
 let sum = 0
 let cardsEl = document.getElementById("cards-el")
 let moreBtn = document.getElementById("more-btn")
 let addBtn = document.getElementById("add-btn")
+let openBtn = document.getElementById("open-btn")
 let addNotBtn = document.getElementById("add-not-btn")
 let bankMoneyEl = document.getElementById("bank-money-el")
 let bankMoney = 300
@@ -30,38 +35,70 @@ function addNot() {
     betEl.textContent = "Bet: " + bet
 }
 
+function openUp() {
 
+    if (bankSum < 12) {
+        bankSum += newCard()
+    }
+    
+    BankSumEl.textContent += " " + bankSum
+    // здеся
+    if (isBJ || sum > bankSum || bankSum > 21) {
+        money += bet
+        bankMoney -= bet
+        bankMoneyEl.textContent = "Bank money: " + bankMoney
+        moneyEl.textContent = "Yours money: " + money
+        isDead = true
+        inGame = false
+        moreController()
+    } else {
+        money -= bet
+        bankMoney += bet
+        bankMoneyEl.textContent = "Bank money: " + bankMoney
+        moneyEl.textContent = "Yours money: " + money
+        isDead = true
+        inGame = false
+        moreController()
+    }
+}
 
 
 function startGame() {
+    if (inGame) {
+        return
+    }
+
     isBJ = false
     isDead = false
+    inGame = true
+    firstCardBank = newCard()
     firstCard = newCard()
     // console.log(firstCard);
+    secondCardBank = newCard()
     secondCard = newCard()
     // console.log(secondCard);
-    cardsEl.textContent =  "Cards: " + firstCard + ", " + secondCard
+    cardsEl.textContent = "Cards: " + firstCard + ", " + secondCard
     sum = firstCard + secondCard
+    bankSum = firstCardBank + secondCardBank
+    BankSumEl.textContent = "BankSum: "
     // console.log(sum);
     sumEl.textContent = "Sum: " + sum
     // console.log(sum);
     check(sum)
-    // moreController()
     moreController()
-
-
 }
 
 function moreController() {
-    if (isDead || isBJ) {
+    if (isDead) { //|| isBJ
         moreBtn.setAttribute("disabled", "disabled")
         addBtn.setAttribute("disabled", "disabled")
         addNotBtn.setAttribute("disabled", "disabled")
-        
+        openBtn.setAttribute("disabled", "disabled")
     } else {
         moreBtn.removeAttribute("disabled", "disabled")
         addBtn.removeAttribute("disabled", "disabled")
         addNotBtn.removeAttribute("disabled", "disabled")
+        openBtn.removeAttribute("disabled", "disabled")
     }
 }
 
@@ -75,10 +112,14 @@ function check(sum) {
         // console.log(message);
     } else if (sum === 21) {
         messageEl.textContent = "YeeY! BJ and Horse"
+        openUp()
         isBJ = true
+        inGame = false
     } else {
         messageEl.textContent = "Perebor!"
+        openUp()
         isDead = true
+        inGame= false
     }
 }
 
@@ -89,5 +130,4 @@ function more() {
     sumEl.textContent = "Sum: " + sum
     check(sum)
     moreController()
-    
 }
