@@ -11,6 +11,7 @@ let messageEl = document.getElementById("message-el")
 let sumEl = document.getElementById("sum-el")
 let BankSumEl = document.getElementById("bank-sum-el")
 let sum = 0
+let bankSum = 0
 let cardsEl = document.getElementById("cards-el")
 let moreBtn = document.getElementById("more-btn")
 let addBtn = document.getElementById("add-btn")
@@ -36,9 +37,11 @@ function addNot() {
 }
 
 function openUp() {
-
-    if (bankSum < 12) {
+    console.log(bankSum);
+    
+    if (bankSum < 14) {
         bankSum += newCard()
+        console.log(bankSum);
     }
     
     BankSumEl.textContent += " " + bankSum
@@ -73,12 +76,14 @@ function startGame() {
     inGame = true
     firstCardBank = newCard()
     firstCard = newCard()
+    
     // console.log(firstCard);
     secondCardBank = newCard()
     secondCard = newCard()
     // console.log(secondCard);
     cardsEl.textContent = "Cards: " + firstCard + ", " + secondCard
     sum = firstCard + secondCard
+    
     bankSum = firstCardBank + secondCardBank
     BankSumEl.textContent = "BankSum: "
     // console.log(sum);
