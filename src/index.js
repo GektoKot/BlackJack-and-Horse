@@ -1,9 +1,6 @@
 // Сам черт ногу сломит
 
-let firstCard
-let firstCardBank
-let secondCard
-let secondCardBank
+
 let isBJ = false
 let isDead = false
 let inGame = false
@@ -38,14 +35,14 @@ function addNot() {
 
 function openUp() {
     console.log(bankSum);
-    
-    if (bankSum < 14) {
+
+    while (bankSum < 14) {
         bankSum += newCard()
         console.log(bankSum);
     }
-    
+
     BankSumEl.textContent += " " + bankSum
-    // здеся
+
     if (isBJ || sum > bankSum || bankSum > 21) {
         money += bet
         bankMoney -= bet
@@ -67,10 +64,15 @@ function openUp() {
 
 
 function startGame() {
+    let firstCard = newCard()
+    let firstCardBank = newCard()
+    let secondCard = newCard()
+    let secondCardBank = newCard()
+
     if (inGame) {
         return
     }
-    if (sum <= 0) {
+    if (money <= 0) {
         messageEl.textContent = "You Lose!"
         isDead = true
         moreController()
@@ -79,21 +81,13 @@ function startGame() {
     isBJ = false
     isDead = false
     inGame = true
-    firstCardBank = newCard()
-    firstCard = newCard()
     
-    // console.log(firstCard);
-    secondCardBank = newCard()
-    secondCard = newCard()
-    // console.log(secondCard);
     cardsEl.textContent = "Cards: " + firstCard + ", " + secondCard
     sum = firstCard + secondCard
-    
+
     bankSum = firstCardBank + secondCardBank
     BankSumEl.textContent = "BankSum: "
-    // console.log(sum);
     sumEl.textContent = "Sum: " + sum
-    // console.log(sum);
     check(sum)
     moreController()
 }
@@ -113,13 +107,24 @@ function moreController() {
 }
 
 function newCard() {
-    return Math.floor(Math.random() * (11 - 2 + 1) + 2)
+    let tempCard = Math.floor(Math.random() * 13) + 1
+    switch (tempCard) {
+        case 1:
+            return 11
+        case 11:
+            return 2
+        case 12:
+            return 3
+        case 13:
+            return 4
+        default:
+            return tempCard
+    }
 }
 
 function check(sum) {
     if (sum <= 20) {
         messageEl.textContent = "Another card?"
-        // console.log(message);
     } else if (sum === 21) {
         messageEl.textContent = "YeeY! BJ and Horse"
         openUp()
@@ -129,7 +134,7 @@ function check(sum) {
         messageEl.textContent = "Perebor!"
         openUp()
         isDead = true
-        inGame= false
+        inGame = false
     }
 }
 
