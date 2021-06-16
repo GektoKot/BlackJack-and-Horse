@@ -1,4 +1,4 @@
-
+// Сам черт ногу сломит
 
 let firstCard
 let firstCardBank
@@ -69,6 +69,11 @@ function openUp() {
 function startGame() {
     if (inGame) {
         return
+    }
+    if (sum <= 0) {
+        messageEl.textContent = "You Lose!"
+        isDead = true
+        moreController()
     }
 
     isBJ = false
